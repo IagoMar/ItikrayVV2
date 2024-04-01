@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,7 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Tikray2VTheme {
-                ScreenRegister()
+                ScreenStart()
             }
         }
     }
@@ -35,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ScreenRegister() {
+fun ScreenStart() {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -110,8 +109,8 @@ fun ScreenRegister() {
 
 @Preview(showSystemUi = true)
 @Composable
-fun Preview() {
-    ScreenRegister()
+private fun Preview() {
+    ScreenStart()
 
 
 }
