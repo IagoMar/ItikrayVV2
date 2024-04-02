@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -54,6 +55,7 @@ class registerScreen : ComponentActivity() {
 
 
 fun MesurerSecurityPassword() {
+
 
 }
 
@@ -126,7 +128,7 @@ fun RegisterScreenUi() {
 
 
         // TEXTFIELDS PARA EL REGISTRO
-
+        val a = false
         //name
         OutlinedTextField(
             value = textName,
@@ -138,7 +140,10 @@ fun RegisterScreenUi() {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
 
-            }
+            },
+            trailingIcon = {if (!a) {
+
+            } }
         )
         OutlinedTextField(
             value = textName,
@@ -163,6 +168,8 @@ fun RegisterScreenUi() {
                 end.linkTo(parent.end)
 
             }
+
+
         )
 
         OutlinedTextField(
