@@ -13,7 +13,10 @@ fun colorss():TextFieldColors{
         unfocusedBorderColor = Color.White,
         focusedBorderColor = Color.Gray,
         focusedTextColor = Color.White,
-        unfocusedTextColor = Color.White)
+        unfocusedTextColor = Color.White,
+        cursorColor = Color.Transparent,
+
+        )
 return colors}
 
 

@@ -12,16 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tikray2V"
         tools:targetApi="31">
+
         <activity
-            android:name=".screens.registerScreen"
-            android:exported="false"
-            android:label="@string/title_activity_register_screen"
-            android:theme="@style/Theme.Tikray2V" />
-        <activity
-            android:name=".screens.MainScreen"
+            android:name=".screens."
             android:exported="true"
             android:label="@string/title_activity_main_screen"
-            android:theme="@style/Theme.Tikray2V">
+            android:theme="@style/Theme.Tikray2V"
+            tools:ignore="DuplicateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

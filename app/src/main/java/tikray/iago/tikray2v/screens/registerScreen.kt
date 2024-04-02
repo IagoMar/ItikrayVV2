@@ -6,24 +6,18 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,21 +25,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import tikray.iago.tikray2v.R
 import tikray.iago.tikray2v.screens.prefabricados.colorss
-import tikray.iago.tikray2v.screens.prefabricados.viewPassword
+import tikray.iago.tikray2v.screens.prefabricados.fieldsNotEmpty
 import tikray.iago.tikray2v.screens.ui.theme.Tikray2VTheme
 
-class registerScreen : ComponentActivity() {
+class RegisterScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -63,17 +56,6 @@ class registerScreen : ComponentActivity() {
 }
 
 
-fun convertPaswwordAstherisc(textPassword: String): String {
-
-    val astherisc = "*"
-    val astheriscsPassword = astherisc.repeat(textPassword.length)
-
-    return astheriscsPassword
-
-
-}
-
-
 @Composable
 fun RegisterScreenUi() {
     ConstraintLayout(
@@ -83,13 +65,11 @@ fun RegisterScreenUi() {
     ) {
 
         // Definimos las referencias para poder colocar los elementos de forma "relativa"
-        val (logo, title, name, mail, password, barSecurityIndicate, textBarSecurity, confirmPassword, iconVisibility) = createRefs()
+        val (logo, title, name, mail, password, barSecurityIndicate, confirmPassword, button1, errorText, matchPassword) = createRefs()
         //Definimos el margen de arriba
         val topMargin = createGuidelineFromTop(0.08f)
         //Definimos el margen de la izquierda
-        val startMargin = createGuidelineFromStart(0.10f)
         // Definimos el margen de la derecha
-        val endMargin = createGuidelineFromEnd(0.20f)
 
         //Definimos los estados para los TextFields
 
@@ -97,34 +77,50 @@ fun RegisterScreenUi() {
 
         var textMail by remember { mutableStateOf("") }
 
-        var textPassword by remember { mutableStateOf("") }
-        var lenghtPassword by remember {
-            mutableStateOf(textPassword.length)
+        var colorForErrorText by remember {
+            mutableStateOf(Color.Transparent)
         }
+
+
+        var textPassword by remember { mutableStateOf("") }
 
         var textConfirmPassword by remember { mutableStateOf("") }
 
-        var visibilityOnOrOff by remember { mutableStateOf(false) }
+        var visibilityOnOrOff by remember { mutableStateOf(true) }
 
-        var visibilityOnOrOff1 by remember { mutableStateOf(false) }
+        var visibilityOnOrOff1 by remember { mutableStateOf(true) }
 
-        val aImprimir = viewPassword(lenghtPassword)
+
+        val colorForTextMachPassword: Boolean =
+            if (textPassword == textConfirmPassword) false else true
+        var isErrorPasswordBecauseDontMatch =
+            if (textPassword == textConfirmPassword) Color.Red else Color.Transparent
+
         // Variables que haran que el ojo para mostrar la contraseña cambie su icono
-        val iconVisibility1 = if (!visibilityOnOrOff) { Icons.Filled.Visibility } else {
-            Icons.Filled.VisibilityOff }
-
-        val iconVisibility2 = if (!visibilityOnOrOff1) { Icons.Filled.Visibility }
-        else {
-            Icons.Filled.VisibilityOff }
-
-        val passwordView = if (visibilityOnOrOff) {
-            aImprimir
+        val iconVisibility1 = if (visibilityOnOrOff) {
+            Icons.Filled.VisibilityOff
+        } else {
+            Icons.Filled.Visibility
         }
-        else {
-            textPassword
+
+        val iconVisibility2 = if (!visibilityOnOrOff1) {
+            Icons.Filled.Visibility
+        } else {
+            Icons.Filled.VisibilityOff
         }
+
+
         //Creamos una cadena para unir todos los texFields y hacer que la separación sea relativa
 
+
+        val emptyFields = fieldsNotEmpty(textName, textMail, textPassword, textConfirmPassword)
+        val textError = when (emptyFields) {
+            1 -> "Name field is required"
+            2 -> "Mail field is required"
+            3 -> "Password field is required"
+            4 -> "Confirm password field is required"
+            else -> ""
+        }
 
         // Creamos una barrera para que la cadena no pise al titulo ni al logo
 
@@ -154,13 +150,14 @@ fun RegisterScreenUi() {
 
 
         // TEXTFIELDS PARA EL REGISTRO
-        val a = false
-        //name
+        //NAME
         OutlinedTextField(
             value = textName,
             onValueChange = { textName = it },
             label = { Text(text = "Name") },
             isError = false,
+            maxLines = 1,
+            singleLine = true,
             modifier = Modifier.constrainAs(name) {
                 top.linkTo(title.bottom, margin = 40.dp)
                 start.linkTo(parent.start)
@@ -170,13 +167,16 @@ fun RegisterScreenUi() {
             colors = colorss()
 
 
-            )
+        )
+        //EMAIL
         OutlinedTextField(
             value = textMail,
             onValueChange = { textMail = it },
             label = { Text(text = "Mail") },
             colors = colorss(),
             isError = false,
+            maxLines = 1,
+            singleLine = true,
             modifier = Modifier.constrainAs(mail) {
                 top.linkTo(name.bottom, margin = 10.dp)
                 start.linkTo(parent.start)
@@ -185,13 +185,16 @@ fun RegisterScreenUi() {
             }
         )
 
-
+        //CONSTRASENYA
         OutlinedTextField(
             value = textPassword,
             onValueChange = { textPassword = it },
             label = { Text(text = "Password") },
             isError = false,
             colors = colorss(),
+            maxLines = 1,
+            singleLine = true,
+
             trailingIcon = {
                 Icon(
                     imageVector = iconVisibility1,
@@ -201,7 +204,16 @@ fun RegisterScreenUi() {
 
                 )
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+
+            visualTransformation = if (visibilityOnOrOff) {
+                PasswordVisualTransformation()
+
+            } else {
+
+                VisualTransformation.None
+
+
+            },
             modifier = Modifier.constrainAs(password) {
                 top.linkTo(mail.bottom, margin = 10.dp)
                 start.linkTo(parent.start)
@@ -210,14 +222,53 @@ fun RegisterScreenUi() {
             },
 
 
+            )
+        //LINIA DE LA SEGURIDAD DE LA CONTRASENYA
+        LinearProgressIndicator(
+            progress = when (textPassword.length) {
+                in 1..3 -> 0.1f
+                in 4..5 -> 0.2f
+                in 6..7 -> 0.3f
+                in 8..9 -> 0.4f
+                in 10..12 -> 0.6f
+                in 13..15 -> 0.8f
+                in 16..1000 -> 1f
+                else -> 0f
+            },
+            trackColor = when (textPassword.isEmpty()) {
+                true -> Color.Transparent
+                false -> Color.White
+
+            },
+            color = when (textPassword.length) {
+                in 1..6 -> Color.Red
+                in 7..12 -> Color.Yellow
+                else -> Color.Green
+
+
+            },
+
+            modifier = Modifier.constrainAs(barSecurityIndicate) {
+                start.linkTo(password.start)
+                top.linkTo(password.bottom, margin = 5.dp)
+                bottom.linkTo(confirmPassword.top)
+
+            }
+
 
         )
+
+
+        // CONFIRMAR CONTRASENYA
         val colorss = colorss()
+
         OutlinedTextField(
             value = textConfirmPassword,
             onValueChange = { textConfirmPassword = it },
             label = { Text(text = "Confirm Password") },
-            isError = false,
+            isError = mat,
+            maxLines = 1,
+            singleLine = true,
             modifier = Modifier.constrainAs(confirmPassword) {
                 top.linkTo(password.bottom, margin = 10.dp)
                 start.linkTo(parent.start)
@@ -225,6 +276,7 @@ fun RegisterScreenUi() {
 
 
             },
+
             colors = colorss,
             trailingIcon = {
                 Icon(
@@ -233,15 +285,59 @@ fun RegisterScreenUi() {
                     tint = Color.White,
                     modifier = Modifier.clickable { visibilityOnOrOff1 = !visibilityOnOrOff1 }
                 )
+            },
+            visualTransformation = if (visibilityOnOrOff1) {
+                PasswordVisualTransformation()
+
+            } else {
+
+                VisualTransformation.None
             }
+
         )
 
 
+        Button(
+            onClick = {
+                colorForErrorText = if (emptyFields != 0) {
+                    Color.Red
+
+                } else {
+                    Color.Transparent
+                }
+
+
+            },
+            shape = CutCornerShape(3.dp),
+            modifier = Modifier.constrainAs(button1) {
+                top.linkTo(confirmPassword.bottom, margin = 50.dp)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+
+
+            },
+
+            ) {
+            Text(text = "Sign Up")
+
+
+        }
+
+        Text(text = "Passwords do not match", color = isErrorPasswordBecauseDontMatch)
+
+        Text(
+            text = textError,
+            color = colorForErrorText,
+            modifier = Modifier.constrainAs(errorText) {
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                top.linkTo(button1.bottom, margin = 10.dp)
+
+            })
+
+
     }
-
-
 }
-
 
 @Preview(showSystemUi = true)
 @Composable
