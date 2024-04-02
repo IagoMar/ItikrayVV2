@@ -5,8 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -53,12 +59,10 @@ class registerScreen : ComponentActivity() {
 }
 
 
-
 fun MesurerSecurityPassword() {
 
 
 }
-
 
 
 @Composable
@@ -70,7 +74,7 @@ fun RegisterScreenUi() {
     ) {
 
         // Definimos las referencias para poder colocar los elementos de forma "relativa"
-        val (logo, title, name, mail, password, barSecurityIndicate, textBarSecurity, confirmPassword) = createRefs()
+        val (logo, title, name, mail, password, barSecurityIndicate, textBarSecurity, confirmPassword, iconVisibility) = createRefs()
         //Definimos el margen de arriba
         val topMargin = createGuidelineFromTop(0.08f)
         //Definimos el margen de la izquierda
@@ -80,23 +84,23 @@ fun RegisterScreenUi() {
 
         //Definimos los estados para los TextFields
 
-        var textName by remember {
-            mutableStateOf("")
+        var textName by remember { mutableStateOf("") }
+
+        var textMail by remember { mutableStateOf("") }
+
+        var textPassword by remember { mutableStateOf("") }
+
+        var textConfirmPassword by remember { mutableStateOf("") }
+
+        var visibilityOnOrOff by remember { mutableStateOf(false) }
+        val iconnVisibility = if (!visibilityOnOrOff) {
+            Icons.Filled.Visibility
+
         }
+        else {
+            Icons.Filled.VisibilityOff
 
-
-        var textMail by remember {
-            mutableStateOf("")
         }
-
-
-        var textPassword by remember {
-            mutableStateOf("")
-        }
-        var textConfirmPassword by remember {
-            mutableStateOf("")
-        }
-
         //Creamos una cadena para unir todos los texFields y hacer que la separación sea relativa
 
 
@@ -141,13 +145,11 @@ fun RegisterScreenUi() {
                 end.linkTo(parent.end)
 
             },
-            trailingIcon = {if (!a) {
 
-            } }
-        )
+            )
         OutlinedTextField(
-            value = textName,
-            onValueChange = { textName = it },
+            value = textMail,
+            onValueChange = { textMail = it },
             label = { Text(text = "Mail") },
             isError = false,
             modifier = Modifier.constrainAs(mail) {
@@ -158,10 +160,19 @@ fun RegisterScreenUi() {
             }
         )
         OutlinedTextField(
-            value = textName,
-            onValueChange = { textName = it },
+            value = textPassword,
+            onValueChange = { textPassword = it },
             label = { Text(text = "Password") },
             isError = false,
+            trailingIcon = {
+                Icon(
+                    imageVector = iconnVisibility,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.clickable { visibilityOnOrOff = !visibilityOnOrOff }
+
+                    )
+            },
             modifier = Modifier.constrainAs(password) {
                 top.linkTo(mail.bottom, margin = 10.dp)
                 start.linkTo(parent.start)
@@ -173,8 +184,8 @@ fun RegisterScreenUi() {
         )
 
         OutlinedTextField(
-            value = textName,
-            onValueChange = { textName = it },
+            value = textConfirmPassword,
+            onValueChange = { textConfirmPassword = it },
             label = { Text(text = "Confirm Password") },
             isError = false,
             modifier = Modifier.constrainAs(confirmPassword) {
