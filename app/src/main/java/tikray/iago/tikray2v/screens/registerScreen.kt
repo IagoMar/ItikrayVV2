@@ -12,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -34,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import tikray.iago.tikray2v.R
+import tikray.iago.tikray2v.R.color.tikrayColor1
 import tikray.iago.tikray2v.screens.prefabricados.colorss
 import tikray.iago.tikray2v.screens.prefabricados.fieldsNotEmpty
 import tikray.iago.tikray2v.screens.ui.theme.Tikray2VTheme
@@ -78,7 +82,7 @@ fun RegisterScreenUi() {
         var textMail by remember { mutableStateOf("") }
 
         var colorForErrorText by remember {
-            mutableStateOf(Color.Transparent)
+            mutableStateOf(Color.Red)
         }
 
 
@@ -92,9 +96,9 @@ fun RegisterScreenUi() {
 
 
         val colorForTextMachPassword: Boolean =
-            if (textPassword == textConfirmPassword) false else true
-        var isErrorPasswordBecauseDontMatch =
-            if (textPassword == textConfirmPassword) Color.Red else Color.Transparent
+            if (textPassword == textConfirmPassword ) false else true
+        val isErrorPasswordBecauseDontMatch =
+            if (textPassword == textConfirmPassword) Color.Transparent else  Color.Red
 
         // Variables que haran que el ojo para mostrar la contraseña cambie su icono
         val iconVisibility1 = if (visibilityOnOrOff) {
@@ -121,6 +125,14 @@ fun RegisterScreenUi() {
             4 -> "Confirm password field is required"
             else -> ""
         }
+
+        val emptyFieldTrueOrFalse = if(emptyFields in 1..4  || textPassword.length !in 7..1000 || textPassword != textConfirmPassword)  {
+            false
+        }
+        else {
+            true
+        }
+
 
         // Creamos una barrera para que la cadena no pise al titulo ni al logo
 
@@ -266,7 +278,7 @@ fun RegisterScreenUi() {
             value = textConfirmPassword,
             onValueChange = { textConfirmPassword = it },
             label = { Text(text = "Confirm Password") },
-            isError = mat,
+            isError = false,
             maxLines = 1,
             singleLine = true,
             modifier = Modifier.constrainAs(confirmPassword) {
@@ -316,6 +328,13 @@ fun RegisterScreenUi() {
 
 
             },
+            colors = ButtonDefaults.buttonColors(
+                contentColor = colorResource(id = tikrayColor1),
+                containerColor = Color.White,
+                disabledContainerColor = Color.Gray
+
+            )  ,
+            enabled = emptyFieldTrueOrFalse,
 
             ) {
             Text(text = "Sign Up")
@@ -323,17 +342,13 @@ fun RegisterScreenUi() {
 
         }
 
-        Text(text = "Passwords do not match", color = isErrorPasswordBecauseDontMatch)
+        Text(text = "Passwords do not match", color = isErrorPasswordBecauseDontMatch, modifier = Modifier.constrainAs(matchPassword){
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+            top.linkTo(confirmPassword.bottom, margin = 8.dp)
+        })
 
-        Text(
-            text = textError,
-            color = colorForErrorText,
-            modifier = Modifier.constrainAs(errorText) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                top.linkTo(button1.bottom, margin = 10.dp)
 
-            })
 
 
     }

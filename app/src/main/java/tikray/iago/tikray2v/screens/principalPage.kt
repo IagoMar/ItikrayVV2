@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,23 +20,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import tikray.iago.tikray2v.R
+import tikray.iago.tikray2v.screens.navegation.Screen
 import tikray.iago.tikray2v.ui.theme.Tikray2VTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Tikray2VTheme {
-                ScreenStart()
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                ScreenStart(navController = rememberNavController())
             }
         }
+        }
     }
-}
+
 
 
 @Composable
-fun ScreenStart() {
+fun ScreenStart(navController: NavController) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -87,7 +97,7 @@ fun ScreenStart() {
 
         }
         Button(
-            onClick = { /*TODO*/ }, modifier = Modifier
+            onClick = { navController.navigate(route = Screen.Register.route) }, modifier = Modifier
                 .width(120.dp)
                 .constrainAs(buttonSignUp) {
                     top.linkTo(buttonLogin.bottom, margin = 5.dp)
@@ -110,7 +120,7 @@ fun ScreenStart() {
 @Preview(showSystemUi = true)
 @Composable
 private fun Preview() {
-    ScreenStart()
+    ScreenStart(navController = rememberNavController())
 
 
 }
