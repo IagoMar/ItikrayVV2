@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -36,6 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import tikray.iago.tikray2v.R
 import tikray.iago.tikray2v.R.color.tikrayColor1
 import tikray.iago.tikray2v.screens.prefabricados.colorss
@@ -51,7 +52,7 @@ class RegisterScreen : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    RegisterScreenUi()
+                    RegisterScreenUi(navController = rememberNavController())
 
                 }
             }
@@ -61,7 +62,7 @@ class RegisterScreen : ComponentActivity() {
 
 
 @Composable
-fun RegisterScreenUi() {
+fun RegisterScreenUi(navController: NavController) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -357,6 +358,6 @@ fun RegisterScreenUi() {
 @Preview(showSystemUi = true)
 @Composable
 private fun Preview() {
-    RegisterScreenUi()
+    RegisterScreenUi(navController = rememberNavController())
 
 }

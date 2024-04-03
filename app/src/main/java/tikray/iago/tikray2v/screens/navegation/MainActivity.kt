@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import tikray.iago.tikray2v.screens.RegisterScreenUi
+import tikray.iago.tikray2v.screens.ScreenStart
 import tikray.iago.tikray2v.screens.ui.theme.Tikray2VTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,8 +18,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Tikray2VTheme {
-                navController = rememberNavController()
-                SetupNavGraph(navController = navController)
+                    val navigationController = rememberNavController()
+                    NavHost(navController = navigationController, startDestination = "ScreenHomePage"){
+                        composable("ScreenHomePage"){ ScreenStart(navController = navigationController)}
+                        composable("ScreenRegister"){ RegisterScreenUi(navController = navigationController) }
+                    }
+
+
             }
         }
     }

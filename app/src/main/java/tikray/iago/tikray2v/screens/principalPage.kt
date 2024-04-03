@@ -20,11 +20,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import tikray.iago.tikray2v.R
-import tikray.iago.tikray2v.screens.navegation.Screen
 import tikray.iago.tikray2v.ui.theme.Tikray2VTheme
 
 class MainActivity : ComponentActivity() {
@@ -97,7 +97,7 @@ fun ScreenStart(navController: NavController) {
 
         }
         Button(
-            onClick = { navController.navigate(route = Screen.Register.route) }, modifier = Modifier
+            onClick = { navController.navigate(route = "ScreenRegister") }, modifier = Modifier
                 .width(120.dp)
                 .constrainAs(buttonSignUp) {
                     top.linkTo(buttonLogin.bottom, margin = 5.dp)
