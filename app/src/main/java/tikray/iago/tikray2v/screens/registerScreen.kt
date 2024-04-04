@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.Firebase
 import tikray.iago.tikray2v.R
 import tikray.iago.tikray2v.R.color.tikrayColor1
 import tikray.iago.tikray2v.screens.prefabricados.colorss
@@ -311,13 +312,8 @@ fun RegisterScreenUi(navController: NavController) {
 
 
         Button(
-            onClick = {
-                colorForErrorText = if (emptyFields != 0) {
-                    Color.Red
-
-                } else {
-                    Color.Transparent
-                }
+            onClick = {  // TODO:  
+                
 
 
             },

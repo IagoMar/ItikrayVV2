@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="tikray.iago.tikray2v" />
+                  <option name="mobileSdkAppId" value="1:217784170846:android:4c7e31b8c9d0e5957137cf" />
+                  <option name="projectId" value="tikray-64f7a" />
+                  <option name="projectNumber" value="217784170846" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
