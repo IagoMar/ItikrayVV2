@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -68,7 +69,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     //Firebase
-
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
+    implementation("com.google.firebase:firebase-analytics")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
