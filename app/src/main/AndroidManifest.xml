@@ -12,7 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tikray2V"
         tools:targetApi="31">
-
+        <activity
+            android:name=".screens.loginScreen"
+            android:exported="false"
+            android:label="@string/title_activity_login_screen"
+            android:theme="@style/Theme.Tikray2V" />
         <activity
             android:name=".screens.navegation.MainActivity"
             android:exported="true"

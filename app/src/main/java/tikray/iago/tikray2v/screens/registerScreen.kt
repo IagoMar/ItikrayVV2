@@ -40,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import tikray.iago.tikray2v.R
 import tikray.iago.tikray2v.R.color.tikrayColor1
+import tikray.iago.tikray2v.firebase.auth.authent
 import tikray.iago.tikray2v.screens.prefabricados.colorss
 import tikray.iago.tikray2v.screens.prefabricados.fieldsNotEmpty
 import tikray.iago.tikray2v.screens.ui.theme.Tikray2VTheme
@@ -67,7 +68,7 @@ fun RegisterScreenUi(navController: NavController) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(19, 18, 69))
+            .background(colorResource(id = tikrayColor1))
     ) {
 
         // Definimos las referencias para poder colocar los elementos de forma "relativa"
@@ -312,7 +313,7 @@ fun RegisterScreenUi(navController: NavController) {
 
 
         Button(
-            onClick = {  // TODO:  
+            onClick = {  authent(show = false, mail = textMail , password = textPassword )
                 
 
 

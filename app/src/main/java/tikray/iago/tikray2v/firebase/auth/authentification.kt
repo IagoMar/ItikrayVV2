@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 package tikray.iago.tikray2v.firebase.auth
 
 import android.graphics.drawable.Icon
@@ -10,61 +12,54 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.firebase.auth.FirebaseAuth
+import tikray.iago.tikray2v.components.AlertDialogExample
 
 
 
-@Preview
-@Composable
-fun Preview () {
-    AlertDialogExample(
-        onDismissRequest = { /*TODO*/ },
-        onConfirmation = { /*TODO*/ },
-        dialogTitle = "HOLA",
-        dialogText = "Adios",
-        icon = Icons.Rounded.Error,
-    )
+fun authent(show:Boolean, mail: String, password: String) {
 
-}
-@Composable
 
-fun AlertDialogExample(
-    onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
-    icon: ImageVector,
-) {
-    AlertDialog(
-        icon = { Icon(icon, contentDescription = "Icono de ejemplo") },
-        title = { Text(text = dialogTitle) },
-        text = { Text(text = dialogText) },
-        onDismissRequest = { onDismissRequest() },
-        confirmButton = {
-            TextButton(onClick = { onConfirmation() }) {
-                Text("Confirmar")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = { onDismissRequest() }) {
-                Text("Cerrar")
-            }
-        }
-    )
-}
-
-fun authent(mail: String, password: String) {
     FirebaseAuth.getInstance().createUserWithEmailAndPassword(mail, password)
         .addOnCompleteListener {
             if (it.isSuccessful) {
 
 
+
             } else {
+
+
+
+
+
             }
 
         }
+
+}
+
+
+@Composable
+fun ExecuteAuthentWithDialogs(textPassword:String, textMail:String) {
+    var viewOrNo by remember {
+        mutableStateOf(false)
+    }
+    AlertDialogExample(
+        show = viewOrNo ,
+        onDismissRequest = { viewOrNo = false },
+        onConfirmation = { viewOrNo = false},
+        dialogTitle = "Ha habido un error ",
+        dialogText =  " No ha sido posible registrarte",
+        icon = Icons.Rounded.Error)
+      authent(show = viewOrNo, mail = textPassword, password = textMail)
+
 
 }
 
