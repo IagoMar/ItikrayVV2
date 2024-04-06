@@ -1,4 +1,3 @@
-@file:Suppress("UNUSED_EXPRESSION")
 
 package tikray.iago.tikray2v.firebase.auth
 
@@ -24,16 +23,23 @@ import tikray.iago.tikray2v.components.AlertDialogExample
 
 
 
-fun authent(show:Boolean, mail: String, password: String) {
+fun authent( mail: String, password: String):Boolean {
+
+
+    var show:Boolean = false
 
 
     FirebaseAuth.getInstance().createUserWithEmailAndPassword(mail, password)
         .addOnCompleteListener {
             if (it.isSuccessful) {
+                show = false
+
 
 
 
             } else {
+                show = true
+
 
 
 
@@ -41,25 +47,10 @@ fun authent(show:Boolean, mail: String, password: String) {
 
             }
 
+
         }
+    return show
 
 }
 
-
-@Composable
-fun ExecuteAuthentWithDialogs(textPassword:String, textMail:String) {
-    var viewOrNo by remember {
-        mutableStateOf(false)
-    }
-    AlertDialogExample(
-        show = viewOrNo ,
-        onDismissRequest = { viewOrNo = false },
-        onConfirmation = { viewOrNo = false},
-        dialogTitle = "Ha habido un error ",
-        dialogText =  " No ha sido posible registrarte",
-        icon = Icons.Rounded.Error)
-      authent(show = viewOrNo, mail = textPassword, password = textMail)
-
-
-}
 

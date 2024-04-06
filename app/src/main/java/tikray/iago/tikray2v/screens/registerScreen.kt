@@ -40,7 +40,9 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import tikray.iago.tikray2v.R
 import tikray.iago.tikray2v.R.color.tikrayColor1
+import tikray.iago.tikray2v.components.AlertDialogExample
 import tikray.iago.tikray2v.firebase.auth.authent
+import tikray.iago.tikray2v.screens.prefabricados.colorsButton
 import tikray.iago.tikray2v.screens.prefabricados.colorss
 import tikray.iago.tikray2v.screens.prefabricados.fieldsNotEmpty
 import tikray.iago.tikray2v.screens.ui.theme.Tikray2VTheme
@@ -310,10 +312,22 @@ fun RegisterScreenUi(navController: NavController) {
             }
 
         )
+        var show by remember {
+            mutableStateOf(false)
+        }
+        AlertDialogExample(show, dismiss = {show = false}, confirm = {show = false})
 
 
         Button(
-            onClick = {  authent(show = false, mail = textMail , password = textPassword )
+            onClick = {
+                if (authent(mail = textMail , password = textPassword)) {
+
+
+                }
+                else {
+                    show = true
+                }
+
                 
 
 
@@ -326,12 +340,9 @@ fun RegisterScreenUi(navController: NavController) {
 
 
             },
-            colors = ButtonDefaults.buttonColors(
-                contentColor = colorResource(id = tikrayColor1),
-                containerColor = Color.White,
-                disabledContainerColor = Color.Gray
+            colors = colorsButton(),
 
-            )  ,
+
             enabled = emptyFieldTrueOrFalse,
 
             ) {

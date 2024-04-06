@@ -34,7 +34,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import tikray.iago.tikray2v.R
+import tikray.iago.tikray2v.screens.prefabricados.colorsButton
 import tikray.iago.tikray2v.screens.prefabricados.colorss
 import tikray.iago.tikray2v.screens.ui.theme.Tikray2VTheme
 
@@ -48,6 +51,7 @@ class LoginScreen : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    LoginScreenUI(navController = rememberNavController())
 
                 }
             }
@@ -57,7 +61,7 @@ class LoginScreen : ComponentActivity() {
 
 
 @Composable
-fun LoginScreenUI() {
+fun LoginScreenUI(navController: NavController) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +74,7 @@ fun LoginScreenUI() {
 
         // variables para los estados
         var textMail by remember { mutableStateOf(" ") }
-        var textPasswd by remember { mutableStateOf(" ") }
+        var textPasswd by remember { mutableStateOf("") }
         var visibilityOnOrOff by remember { mutableStateOf(true) }
         val topMargin = createGuidelineFromTop(0.08f)
 
@@ -138,6 +142,7 @@ fun LoginScreenUI() {
                 )
             },
 
+
             visualTransformation = if (visibilityOnOrOff) {
                 PasswordVisualTransformation()
 
@@ -152,37 +157,36 @@ fun LoginScreenUI() {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
 
-            },
-            Button(
-                onClick = { /*TODO*/ }, modifier = Modifier
-                    .width(120.dp)
-                    .constrainAs(button1) {
-                        top.linkTo(passwdField.bottom, margin = 100.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
+
+            })
+        Button(
+            onClick = { /*TODO*/ }, modifier = Modifier
+                .width(120.dp)
+                .constrainAs(button1) {
+                    top.linkTo(passwdField.bottom, margin = 100.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
 
 
-                    },
+                },
+            enabled = if (textMail.isEmpty() || textPasswd.isEmpty() || textPasswd.length <= 7) false else true,
+            colors = colorsButton(),
+            shape = CutCornerShape(3.dp)
+        ) {
+            Text(text = "LOGIN")
 
-                shape = CutCornerShape(3.dp)
-            ) {
-                Text(text = "LOGIN")
 
+        }
 
-            }
-        )
     }
 
 
-    }
-
-
-
+}
 
 
 @Preview(showSystemUi = true)
 @Composable
 private fun Preview() {
-    LoginScreenUI()
+    LoginScreenUI(navController = rememberNavController())
 
 }

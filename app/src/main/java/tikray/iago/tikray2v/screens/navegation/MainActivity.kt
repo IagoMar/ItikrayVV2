@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import tikray.iago.tikray2v.screens.LoginScreenUI
 import tikray.iago.tikray2v.screens.RegisterScreenUi
 import tikray.iago.tikray2v.screens.ScreenStart
 import tikray.iago.tikray2v.screens.ui.theme.Tikray2VTheme
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navigationController, startDestination = "ScreenHomePage"){
                         composable("ScreenHomePage"){ ScreenStart(navController = navigationController)}
                         composable("ScreenRegister"){ RegisterScreenUi(navController = navigationController) }
+                        composable("ScreenLogin") { LoginScreenUI(navController = navigationController)}
                     }
 
 

@@ -81,7 +81,7 @@ fun ScreenStart(navController: NavController) {
         )
 
         Button(
-            onClick = { /*TODO*/ }, modifier = Modifier
+            onClick = { navController.navigate(route = "ScreenLogin")}, modifier = Modifier
                 .width(120.dp)
                 .constrainAs(buttonLogin) {
                     top.linkTo(logo.bottom, margin = 75.dp)
