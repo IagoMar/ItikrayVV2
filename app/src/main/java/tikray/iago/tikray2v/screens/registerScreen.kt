@@ -101,9 +101,9 @@ fun RegisterScreenUi(navController: NavController) {
 
 
         val colorForTextMachPassword: Boolean =
-            if (textPassword == textConfirmPassword ) false else true
+            if (textPassword == textConfirmPassword) false else true
         val isErrorPasswordBecauseDontMatch =
-            if (textPassword == textConfirmPassword) Color.Transparent else  Color.Red
+            if (textPassword == textConfirmPassword) Color.Transparent else Color.Red
 
         // Variables que haran que el ojo para mostrar la contraseña cambie su icono
         val iconVisibility1 = if (visibilityOnOrOff) {
@@ -131,12 +131,12 @@ fun RegisterScreenUi(navController: NavController) {
             else -> ""
         }
 
-        val emptyFieldTrueOrFalse = if(emptyFields in 1..4  || textPassword.length !in 7..1000 || textPassword != textConfirmPassword)  {
-            false
-        }
-        else {
-            true
-        }
+        val emptyFieldTrueOrFalse =
+            if (emptyFields in 1..4 || textPassword.length !in 7..1000 || textPassword != textConfirmPassword) {
+                false
+            } else {
+                true
+            }
 
 
         // Creamos una barrera para que la cadena no pise al titulo ni al logo
@@ -315,20 +315,25 @@ fun RegisterScreenUi(navController: NavController) {
         var show by remember {
             mutableStateOf(false)
         }
-        AlertDialogExample(show, dismiss = {show = false}, confirm = {show = false})
+        AlertDialogExample(
+            show,
+            dismiss = { show = false },
+            confirm = { show = false },
+            textTitle = "Error en el registro",
+            textBody = "Ha habido un error al intentar registrarte"
+        )
 
 
         Button(
             onClick = {
-                if (authent(mail = textMail , password = textPassword)) {
-
-
-                }
-                else {
+                if (authent(mail = textMail, password = textPassword)) {
                     show = true
-                }
 
-                
+
+
+                } else {
+                    show = false
+                }
 
 
             },
@@ -351,13 +356,14 @@ fun RegisterScreenUi(navController: NavController) {
 
         }
 
-        Text(text = "Passwords do not match", color = isErrorPasswordBecauseDontMatch, modifier = Modifier.constrainAs(matchPassword){
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-            top.linkTo(confirmPassword.bottom, margin = 8.dp)
-        })
-
-
+        Text(
+            text = "Passwords do not match",
+            color = isErrorPasswordBecauseDontMatch,
+            modifier = Modifier.constrainAs(matchPassword) {
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+                top.linkTo(confirmPassword.bottom, margin = 8.dp)
+            })
 
 
     }
